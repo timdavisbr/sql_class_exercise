@@ -1,21 +1,28 @@
 HomeWork##############################################################
+
 #DROP TABLE if you need to delete them
 #CREATE TABLE to make a new table (insert columns srperated by comma,)
+
+CREATE TABLE bookmarks (id serial PRIMARY KEY, 
+                        bname varchar(30), 
+                        url varchar(255), 
+                        description varchar(255)
+                        );
+
+CREATE TABLE tags (tag_id serial PRIMARY KEY, 
+                   tname varchar(30)
+                   );
+
+CREATE TABLE tagmap (id serial, 
+                     bookmark_id integer REFERENCES bookmarks (id) ON DELETE CASCADE ON UPDATE CASCADE, 
+                     tag_id integer REFERENCES tags (tag_id) ON DELETE CASCADE ON UPDATE CASCADE
+                     );
+
 #INSERT INTO to populate columns in tables
 
-
-CREATE TABLE bookmarks (id serial PRIMARY KEY, bname varchar(30), 
-url varchar(255), description varchar(255));
-
-CREATE TABLE tags (tag_id serial PRIMARY KEY, tname varchar(30));
-
-CREATE TABLE tagmap (id serial, bookmark_id integer REFERENCES bookmarks (id) 
-ON DELETE CASCADE ON UPDATE CASCADE, tag_id integer REFERENCES 
-tags (tag_id) ON DELETE CASCADE ON UPDATE CASCADE);
-
-
 INSERT INTO bookmarks (bname, url, description)
-VALUES ('Codecademy', 'https://www.codecademy.com', 'python website'),
+VALUES 
+('Codecademy', 'https://www.codecademy.com', 'python website'),
 ('Amazon', 'https://www.amazon.com', 'shopping website'), 
 ('UNG', 'https://ung.edu', 'education website'), 
 ('Linkedin', 'https://www.linkedin.com', 'work website'), 
@@ -30,7 +37,12 @@ VALUES
 ('friend'), ('like');
 
 INSERT INTO tagmap (bookmark_id, tag_id)
-VALUES (1,1), (1,2), (2,3), (2,4), (3,5), (3,6), (4,7), (4,8), (5,9), (5,10);
+VALUES 
+(1,1), (1,2), 
+(2,3), (2,4), 
+(3,5), (3,6), 
+(4,7), (4,8), 
+(5,9), (5,10);
 
 SELECT url, tname FROM 
 tagmap INNER JOIN tags ON tags.tag_id=tagmap.tag_id
